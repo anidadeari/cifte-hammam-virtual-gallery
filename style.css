@@ -1,0 +1,580 @@
+/* =========================================================
+   PREMIUM UI — AURORA GLASS (FANTASY MUSEUM EDITION)
+   Replace your entire style.css with this
+   ========================================================= */
+
+   :root {
+    --bg0: #05060d;
+  
+    /* glass */
+    --glass: rgba(10, 12, 22, 0.64);
+    --glass-2: rgba(12, 14, 26, 0.58);
+  
+    /* borders / text */
+    --border: rgba(255, 255, 255, 0.14);
+    --border-strong: rgba(255, 255, 255, 0.18);
+    --text: rgba(255, 255, 255, 0.94);
+    --muted: rgba(255, 255, 255, 0.78);
+    --muted2: rgba(255, 255, 255, 0.62);
+  
+    /* shadow */
+    --shadow: rgba(0, 0, 0, 0.58);
+    --shadow-soft: rgba(0, 0, 0, 0.36);
+  
+    /* accent: warm museum gold (tasteful) */
+    --accent-a: rgba(255, 206, 92, 0.98);
+    --accent-b: rgba(255, 154, 64, 0.95);
+  
+    /* chips */
+    --chip: rgba(255, 255, 255, 0.085);
+    --chip-b: rgba(255, 255, 255, 0.12);
+  
+    /* focus ring */
+    --focus: rgba(255, 198, 70, 0.42);
+  }
+  
+  * { box-sizing: border-box; }
+  
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--bg0);
+  
+    /* IMPORTANT: use the premium fonts you loaded in index.html */
+    font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color: var(--text);
+  
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+  }
+  
+  /* Canvas fills screen */
+  canvas { display: block; width: 100%; height: 100%; }
+  
+  /* Better selection */
+  ::selection { background: rgba(255, 198, 70, 0.28); color: #fff; }
+  ::-moz-selection { background: rgba(255, 198, 70, 0.28); color: #fff; }
+  
+  .hide { display: none; }
+  
+  /* =========================================================
+     BACKGROUND: procedural aurora + glow + grain
+     (works with the index.html: hero_bg/glow/noise/overlay)
+     ========================================================= */
+  #img_container {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  /* Base aurora (slightly richer + more cinematic) */
+  #hero_bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(1200px 700px at 18% 22%, rgba(120, 80, 255, 0.62), transparent 56%),
+      radial-gradient(900px 650px at 82% 28%, rgba(0, 220, 255, 0.36), transparent 62%),
+      radial-gradient(900px 700px at 55% 86%, rgba(255, 180, 0, 0.20), transparent 62%),
+      linear-gradient(135deg, #05060d 0%, #0a0f1e 45%, #070815 100%);
+    transform: scale(1.07);
+  }
+  
+  /* subtle animated glow (more premium motion) */
+  #hero_glow {
+    position: absolute;
+    inset: -22%;
+    background:
+      conic-gradient(from 220deg at 50% 50%,
+        rgba(120,80,255,0.18),
+        rgba(0,220,255,0.12),
+        rgba(255,180,0,0.10),
+        rgba(120,80,255,0.18)
+      );
+    filter: blur(48px);
+    opacity: 0.88;
+    animation: slowFloat 18s ease-in-out infinite;
+  }
+  
+  @keyframes slowFloat {
+    0%   { transform: translate3d(-1.6%, -1.3%, 0) rotate(0deg); }
+    50%  { transform: translate3d( 1.3%,  1.1%, 0) rotate(9deg); }
+    100% { transform: translate3d(-1.6%, -1.3%, 0) rotate(0deg); }
+  }
+  
+  /* grain texture */
+  #hero_noise {
+    position: absolute;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+    mix-blend-mode: soft-light;
+    opacity: 0.34;
+    transform: scale(1.15);
+  }
+  
+  /* vignette overlay (more “museum spotlight” vibe) */
+  #hero_overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 18%, rgba(0,0,0,0.18), rgba(0,0,0,0.86));
+  }
+  
+  /* =========================================================
+     MENU: small glass card (NOT fullscreen)
+     ========================================================= */
+  #menu {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+  }
+  
+  /* Card wrapper */
+  #content_container {
+    position: relative;
+    z-index: 6;
+    width: min(640px, calc(100vw - 28px));
+  }
+  
+  /* Glass card (fantasy polish + inner glow) */
+  #content {
+    border-radius: 24px;
+    padding: 24px 24px 18px;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 22px 66px var(--shadow);
+    transform: translateY(8px);
+    animation: cardIn 650ms ease-out forwards;
+  
+    /* subtle inner highlight for “luxury glass” */
+    position: relative;
+    overflow: hidden;
+  }
+  
+  #content::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    background:
+      radial-gradient(900px 220px at 35% 0%, rgba(255,255,255,0.10), transparent 55%),
+      radial-gradient(700px 260px at 80% 15%, rgba(255, 206, 92, 0.06), transparent 60%);
+    pointer-events: none;
+    opacity: 0.9;
+  }
+  
+  #content::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.06), transparent 45%),
+      linear-gradient(90deg, rgba(255,255,255,0.05), transparent 40%, rgba(255,255,255,0.03));
+    pointer-events: none;
+    opacity: 0.55;
+  }
+  
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(18px) scale(0.985); }
+    to   { opacity: 1; transform: translateY(0px) scale(1); }
+  }
+  
+  /* Title (museum/editorial) */
+  .title h1 {
+    margin: 0;
+    font-family: "Playfair Display", serif;
+    font-size: 44px;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+  
+  .tagline {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.55;
+    max-width: 60ch;
+  }
+  
+  /* Body text */
+  .title-info {
+    margin-top: 14px;
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 15.5px;
+    max-width: 62ch;
+  }
+  
+  .title-info .credit {
+    margin-top: 12px;
+    color: var(--muted2);
+  }
+  
+  /* Buttons row */
+  .menu-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  /* Primary CTA (more “fantasy premium” glow) */
+  #play_button {
+    flex: 1;
+    padding: 14px 16px;
+    border-radius: 14px;
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+  
+    background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+    box-shadow:
+      0 14px 34px rgba(255, 170, 60, 0.20),
+      0 0 0 1px rgba(255, 255, 255, 0.10) inset;
+  
+    transition: transform 0.14s ease, filter 0.14s ease, box-shadow 0.14s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  #play_button::after {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.22), transparent 46%);
+    transform: translateX(-8%);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  
+  #play_button p {
+    margin: 0;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    color: #101318;
+  }
+  
+  #play_button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+    box-shadow:
+      0 16px 40px rgba(255, 170, 60, 0.24),
+      0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+  }
+  
+  #play_button:active {
+    transform: translateY(0px) scale(0.99);
+  }
+  
+  /* Secondary button */
+  button.ghost {
+    padding: 14px 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.085);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.94);
+    cursor: pointer;
+  
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+  
+    transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
+  }
+  
+  button.ghost:hover {
+    transform: translateY(-1px);
+    background: rgba(255,255,255,0.11);
+    border-color: rgba(255,255,255,0.18);
+  }
+  
+  button.ghost:active { transform: translateY(0px) scale(0.99); }
+  
+  /* Keyboard focus accessibility (looks premium too) */
+  button:focus-visible,
+  #play_button:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+  
+  /* Mini controls chips */
+  .mini-controls {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .mini-controls .chip {
+    padding: 8px 11px;
+    border-radius: 999px;
+    background: var(--chip);
+    border: 1px solid var(--chip-b);
+    color: rgba(255,255,255,0.84);
+    font-size: 12.6px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.20);
+  }
+  
+  .mini-controls .chip b { color: rgba(255,255,255,0.96); }
+  
+  /* =========================================================
+     ABOUT MODAL: elegant glass stack + animation
+     (index.html uses: #about-overlay + .active class)
+     ========================================================= */
+  #about-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    z-index: 20;
+    padding: 24px;
+    background: rgba(0,0,0,0.58);
+    backdrop-filter: blur(7px);
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+  
+  #about-overlay.active {
+    display: grid;
+    place-items: center;
+    opacity: 1;
+  }
+  
+  /* close button: premium + hover */
+  #close-about {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(255,255,255,0.09);
+    color: #fff;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
+  }
+  
+  #close-about:hover {
+    transform: translateY(-1px);
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.20);
+  }
+  
+  #close-about:active { transform: translateY(0px) scale(0.99); }
+  
+  /* “card stack” look without extra wrappers */
+  #about-overlay h1,
+  #about-overlay p {
+    width: min(900px, calc(100vw - 30px));
+    margin: 0;
+    background: var(--glass-2);
+    border-left: 1px solid rgba(255,255,255,0.11);
+    border-right: 1px solid rgba(255,255,255,0.11);
+    padding: 14px 18px;
+    box-shadow: 0 14px 42px rgba(0,0,0,0.35);
+  }
+  
+  /* animate the stack in */
+  #about-overlay.active h1,
+  #about-overlay.active p {
+    animation: modalStackIn 320ms ease-out both;
+  }
+  
+  #about-overlay.active p:nth-of-type(1) { animation-delay: 40ms; }
+  #about-overlay.active p:nth-of-type(2) { animation-delay: 80ms; }
+  #about-overlay.active p:nth-of-type(3) { animation-delay: 120ms; }
+  
+  @keyframes modalStackIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.99); }
+    to   { opacity: 1; transform: translateY(0px) scale(1); }
+  }
+  
+  #about-overlay h1 {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-top: 1px solid rgba(255,255,255,0.11);
+    color: #fff;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    font-family: "Playfair Display", serif;
+  }
+  
+  #about-overlay p {
+    color: rgba(255,255,255,0.88);
+    line-height: 1.7;
+    font-size: 15.5px;
+  }
+  
+  #about-overlay p:last-of-type {
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.11);
+  }
+  
+  /* =========================================================
+     MINI IN-GAME CONTROLS (bottom-right, clean)
+     ========================================================= */
+  #info-panel.mini {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    width: 230px;
+    border-radius: 14px;
+    background: rgba(10, 12, 22, 0.58);
+    border: 1px solid rgba(255,255,255,0.13);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.48);
+    overflow: hidden;
+    z-index: 8;
+  }
+  
+  #info-panel.mini #info-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    color: rgba(255,255,255,0.92);
+  }
+  
+  #info-panel.mini #info-header h3 {
+    margin: 0;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  
+  #info-panel.mini #toggle-info {
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.10);
+    color: rgba(255,255,255,0.92);
+    padding: 6px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.12s ease, background 0.12s ease;
+  }
+  
+  #info-panel.mini #toggle-info:hover {
+    transform: translateY(-1px);
+    background: rgba(255,255,255,0.12);
+  }
+  
+  #info-panel.mini #info-content {
+    padding: 0 12px 10px;
+    color: rgba(255,255,255,0.84);
+    font-size: 12.6px;
+  }
+  
+  #info-panel.mini #info-content p { margin: 6px 0; }
+  
+  /* =========================================================
+     PAINTING INFO (top-left, premium)
+     ========================================================= */
+  #painting-info {
+    position: fixed;
+    left: 16px;
+    top: 16px;
+    z-index: 8;
+    max-width: 380px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(10, 12, 22, 0.58);
+    border: 1px solid rgba(255,255,255,0.13);
+    color: rgba(255,255,255,0.94);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.38);
+    transform: translateY(12px);
+    opacity: 0;
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+  
+  #painting-info.show {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  
+  #painting-info h3 {
+    margin: 0 0 6px 0;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.92);
+  }
+  
+  #painting-info p {
+    margin: 0;
+    font-size: 13.8px;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.86);
+  }
+  
+  /* =========================================================
+     AUDIO CONTROLS (top-right, tidy)
+     ========================================================= */
+  #audio_controls {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 8;
+    display: flex;
+    gap: 10px;
+  }
+  
+  #audio_controls button {
+    border: 1px solid rgba(255,255,255,0.13);
+    background: rgba(10, 12, 22, 0.58);
+    color: rgba(255,255,255,0.94);
+    padding: 10px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+  }
+  
+  #audio_controls button:hover {
+    transform: translateY(-1px);
+    background: rgba(10, 12, 22, 0.64);
+    border-color: rgba(255,255,255,0.18);
+  }
+  
+  #audio_controls button:active {
+    transform: translateY(0px) scale(0.99);
+  }
+  
+  /* =========================================================
+     Controls collapse behavior (keep yours, but refined)
+     ========================================================= */
+  #info-panel.is-collapsed #info-content {
+    display: none;
+  }
+  
+  #info-panel.is-collapsed h3 {
+    display: none; /* opsionale: e fsheh titullin kur collapsed */
+  }
+  
+  #info-panel.is-collapsed {
+    width: auto;
+    padding: 10px 12px;
+  }
+  
+  /* =========================================================
+     Responsive polish (small screens)
+     ========================================================= */
+  @media (max-width: 520px) {
+    #content_container { width: min(680px, calc(100vw - 18px)); }
+    #content { padding: 18px 16px 14px; border-radius: 20px; }
+    .title h1 { font-size: 34px; }
+    .tagline { font-size: 14px; }
+    .title-info { font-size: 14.8px; }
+    #audio_controls { gap: 8px; }
+    #audio_controls button { padding: 9px 10px; }
+    #info-panel.mini { width: 210px; }
+  }

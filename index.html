@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Çifte Hammam Virtual Gallery</title>
+
+    <!-- Premium typography (museum/editorial feel) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <!-- MENU (small, glass card) -->
+    <div id="menu">
+      <div id="img_container">
+        <div id="hero_bg"></div>
+        <div id="hero_glow"></div>
+        <div id="hero_noise"></div>
+        <div id="hero_overlay"></div>
+      </div>
+
+      <div id="content_container">
+        <div id="content">
+          <div class="title">
+            <h1>Çifte Hammam Virtual Gallery</h1>
+            <p class="tagline">
+              A quiet 3D museum experience inspired by Skopje’s historic Çifte Hammam—stone,
+              light, and calm exploration.
+            </p>
+          </div>
+
+          <div class="title-info">
+            <p>
+              Step into a softly lit exhibition hall where each artwork reveals its story as you
+              approach. Designed for atmosphere, realistic materials, and a smooth visitor flow.
+            </p>
+            <p class="credit">
+              Developed by <b>Anida Deari</b> — Computer Graphics Project
+            </p>
+          </div>
+
+          <div class="menu-actions">
+            <div id="play_button">
+              <p>ENTER GALLERY</p>
+            </div>
+            <button id="about_button" class="ghost">ABOUT</button>
+          </div>
+
+          <div class="mini-controls">
+            <span class="chip"><b>W/A/S/D</b> move</span>
+            <span class="chip"><b>Mouse</b> look</span>
+            <span class="chip"><b>Esc</b> cursor</span>
+            <span class="chip"><b>M</b> menu</span>
+            <span class="chip"><b>G / P</b> audio</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT (pretty modal) -->
+    <div id="about-overlay">
+      <button id="close-about" aria-label="Close about modal">X</button>
+
+      <h1>About this Museum</h1>
+      <p>
+        This virtual museum is a Computer Graphics project inspired by the atmosphere of Çifte
+        Hammam in Skopje—historic stone spaces, soft light, and quiet movement through art.
+      </p>
+      <p>
+        The experience focuses on realism and mood: physically-based materials, dynamic
+        spotlights, and interactive artwork information that appears as you explore the gallery.
+      </p>
+      <p>
+        Controls: <b>W/A/S/D</b> to move, <b>Mouse</b> to look around, <b>Esc</b> to release the cursor,
+        and <b>M</b> to reopen the menu. Use <b>G</b>/<b>P</b> to start/stop the audio guide.
+      </p>
+    </div>
+
+    <!-- MINI CONTROLS (in-game) -->
+    <div id="info-panel" class="mini">
+      <div id="info-header">
+        <h3>Controls</h3>
+        <button id="toggle-info">Hide</button>
+      </div>
+      <div id="info-content">
+        <p><b>W/A/S/D</b> Move</p>
+        <p><b>Mouse</b> Look</p>
+        <p><b>Esc</b> Cursor</p>
+        <p><b>M</b> Menu</p>
+        <p><b>G/P</b> Audio</p>
+      </div>
+    </div>
+
+    <!-- AUDIO -->
+    <div id="audio_controls">
+      <button id="start_audio">Start Audio Guide</button>
+      <button id="stop_audio">Stop Audio Guide</button>
+    </div>
+
+    <div id="painting-info"></div>
+
+    <script type="module" src="/main.js"></script>
+
+    <!-- About modal toggle -->
+    <script>
+      const aboutBtn = document.getElementById("about_button");
+      const aboutOverlay = document.getElementById("about-overlay");
+      const closeAbout = document.getElementById("close-about");
+
+      if (aboutBtn && aboutOverlay && closeAbout) {
+        aboutBtn.addEventListener("click", () => {
+          aboutOverlay.classList.add("active");
+        });
+        closeAbout.addEventListener("click", () => {
+          aboutOverlay.classList.remove("active");
+        });
+      }
+    </script>
+  </body>
+</html>
